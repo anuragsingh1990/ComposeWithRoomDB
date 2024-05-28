@@ -2,6 +2,7 @@ package com.v_service.dynamicthemecompose.ui.theme
 
 import android.app.Activity
 import android.os.Build
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
@@ -16,7 +17,14 @@ import androidx.compose.ui.platform.LocalContext
 private val DarkColorScheme = darkColorScheme(
     primary = Purple80,
     secondary = PurpleGrey80,
-    tertiary = Pink80
+    tertiary = Pink80,
+    background = LightThemeColor,
+    surface = Color(0xFFFFFBFE),
+    onPrimary = PurpleGrey80,
+    onSecondary = PurpleGrey80,
+    onTertiary = PurpleGrey80,
+    onBackground = Color.DarkGray,
+    onSurface = Color.Black
 )
 
 private val LightColorScheme = lightColorScheme(
@@ -36,7 +44,7 @@ private val LightColorScheme = lightColorScheme(
 
 @Composable
 fun DynamicThemeComposeTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
+    darkTheme: Boolean = isNightMode(),
     // Dynamic color is available on Android 12+
     dynamicColor: Boolean = true,
     content: @Composable () -> Unit
@@ -58,4 +66,11 @@ fun DynamicThemeComposeTheme(
         )
     }
 
+}
+
+@Composable
+private fun isNightMode() = when (AppCompatDelegate.getDefaultNightMode()) {
+    AppCompatDelegate.MODE_NIGHT_NO -> false
+    AppCompatDelegate.MODE_NIGHT_YES -> true
+    else -> isSystemInDarkTheme()
 }
